@@ -7,8 +7,10 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use AqilixAPI\Image\Mapper\ImageInterface as ImageMapperInterface;
-use AqilixAPI\Image\Entity\Image as ImageEntity;
 use AqilixAPI\Image\Entity\ImageInterface as ImageEntityInterface;
+use Zend\Paginator\Paginator as ZendPaginator;
+use Doctrine\ORM\Tools\Pagination\Paginator as DoctrinePaginator;
+use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as DoctrinePaginatorAdapter;
 
 /**
  * Image Mapper with Doctrine support
@@ -17,10 +19,14 @@ use AqilixAPI\Image\Entity\ImageInterface as ImageEntityInterface;
  */
 class Doctrine implements ImageMapperInterface, ServiceLocatorAwareInterface
 {
-    protected $sm;
-    
+    /**
+     * @var Doctrine\ORM\EntityManagerInterface
+     */
     protected $em;
     
+    /**
+     * @var Zend\Stdlib\Hydrator\HydratorInterface
+     */
     protected $hydrator;
     
     /**
@@ -47,13 +53,19 @@ class Doctrine implements ImageMapperInterface, ServiceLocatorAwareInterface
     }
 
     /**
-     * Fetch Images
+     * Fetch Images with pagination
      *
-     * @param int $id
-     * @param int $page
+     * @param  array $params
+     * @return ZendPaginator
      */
-    public function fetchAll($id, $page)
+    public function fetchAll(array $params)
     {
+        $qb = $this->getEntityRepository()->createQueryBuilder('image');
+        $query = $qb->getQuery();
+        $query->useQueryCache(true);
+        $query->useResultCache(true, 600, 'image-list');
+        $paginator = $this->getPaginator($query);
+        return $paginator;
     }
     
     /**
@@ -155,5 +167,21 @@ class Doctrine implements ImageMapperInterface, ServiceLocatorAwareInterface
     protected function getEntityRepository()
     {
         return $this->getEntityManager()->getRepository('AqilixAPI\Image\Entity\Image');
+    }
+    
+    /**
+     * Get Paginator
+     * 
+     * @param unknown $query
+     * @param boolean $fetchJoinCollection
+     * @return \Zend\Paginator\Paginator
+     */
+    protected function getPaginator($query, $fetchJoinCollection = true)
+    {
+        $doctrinePaginator = new DoctrinePaginator($query, $fetchJoinCollection);
+        $adapter   = new DoctrinePaginatorAdapter($doctrinePaginator);
+        $paginator = new ZendPaginator($adapter);
+    
+        return $paginator;
     }
 }

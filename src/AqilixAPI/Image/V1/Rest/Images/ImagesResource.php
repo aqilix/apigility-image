@@ -2,54 +2,10 @@
 namespace AqilixAPI\Image\V1\Rest\Images;
 
 use ZF\ApiProblem\ApiProblem;
-use ZF\Rest\AbstractResourceListener;
+use AqilixAPI\Image\V1\Rest\AbstractResourceListener;
 
 class ImagesResource extends AbstractResourceListener
 {
-    /**
-     * Create a resource
-     *
-     * @param  mixed $data
-     * @return ApiProblem|mixed
-     */
-    public function create($data)
-    {
-        return new ApiProblem(405, 'The POST method has not been defined');
-    }
-
-    /**
-     * Delete a resource
-     *
-     * @param  mixed $id
-     * @return ApiProblem|mixed
-     */
-    public function delete($id)
-    {
-        return new ApiProblem(405, 'The DELETE method has not been defined for individual resources');
-    }
-
-    /**
-     * Delete a collection, or members of a collection
-     *
-     * @param  mixed $data
-     * @return ApiProblem|mixed
-     */
-    public function deleteList($data)
-    {
-        return new ApiProblem(405, 'The DELETE method has not been defined for collections');
-    }
-
-    /**
-     * Fetch a resource
-     *
-     * @param  mixed $id
-     * @return ApiProblem|mixed
-     */
-    public function fetch($id)
-    {
-        return new ApiProblem(405, 'The GET method has not been defined for individual resources');
-    }
-
     /**
      * Fetch all or a subset of resources
      *
@@ -58,41 +14,16 @@ class ImagesResource extends AbstractResourceListener
      */
     public function fetchAll($params = array())
     {
-        return new ApiProblem(405, 'The GET method has not been defined for collections');
+        return $this->getMapper()->fetchAll($params->toArray());
     }
-
+    
     /**
-     * Patch (partial in-place update) a resource
+     * Get Mapper
      *
-     * @param  mixed $id
-     * @param  mixed $data
-     * @return ApiProblem|mixed
+     * @return AqilixAPI\\Image\Mapper\ImageMapperInterface
      */
-    public function patch($id, $data)
+    protected function getMapper()
     {
-        return new ApiProblem(405, 'The PATCH method has not been defined for individual resources');
-    }
-
-    /**
-     * Replace a collection or members of a collection
-     *
-     * @param  mixed $data
-     * @return ApiProblem|mixed
-     */
-    public function replaceList($data)
-    {
-        return new ApiProblem(405, 'The PUT method has not been defined for collections');
-    }
-
-    /**
-     * Update a resource
-     *
-     * @param  mixed $id
-     * @param  mixed $data
-     * @return ApiProblem|mixed
-     */
-    public function update($id, $data)
-    {
-        return new ApiProblem(405, 'The PUT method has not been defined for individual resources');
+        return $this->getServiceLocator()->get('AqilixAPI\\Image\\Mapper\\Image');
     }
 }
