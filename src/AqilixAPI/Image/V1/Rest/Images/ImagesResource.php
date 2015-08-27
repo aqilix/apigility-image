@@ -14,16 +14,7 @@ class ImagesResource extends AbstractResourceListener
      */
     public function fetchAll($params = array())
     {
-        return $this->getMapper()->fetchAll($params->toArray());
-    }
-    
-    /**
-     * Get Mapper
-     *
-     * @return AqilixAPI\\Image\Mapper\ImageMapperInterface
-     */
-    protected function getMapper()
-    {
-        return $this->getServiceLocator()->get('AqilixAPI\\Image\\Mapper\\Image');
+        $imageService = $this->getServiceLocator()->get('AqilixAPI\\Image\\Service\\Image');
+        return $imageService->getCollection($params->toArray());
     }
 }

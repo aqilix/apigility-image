@@ -35,7 +35,8 @@ return array(
             'AqilixAPI\\Image\\Mapper\\Image'  => 'AqilixAPI\\Image\\Mapper\\Adapter\\Doctrine',
             'AqilixAPI\\Image\\Service\\Image' => 'AqilixAPI\\Image\\Service\\Image',
             'AqilixAPI\\Image\\SharedEventListener' => 'AqilixAPI\\Image\\Service\\SharedEventListener',
-            'AqilixAPI\\Image\\V1\\Rest\\Image\\ImageResource'   => 'AqilixAPI\\Image\\V1\\Rest\\Image\\ImageResource',
+            'AqilixAPI\\Image\\V1\\Rest\\Image\\ImageResource'   =>
+                'AqilixAPI\\Image\\V1\\Rest\\Image\\ImageResource',
             'AqilixAPI\\Image\\V1\\Rest\\Images\\ImagesResource' =>
                 'AqilixAPI\\Image\\V1\\Rest\\Images\\ImagesResource',
             'AqilixAPI\\Image\\Stdlib\\Hydrator\\Strategy\\AssetManagerResolverStrategy' =>
@@ -82,7 +83,7 @@ return array(
             'collection_query_whitelist' => array(
                0 => 'page'
             ),
-            'page_size' => 3,
+            'page_size' => 5,
             'page_size_param' => null,
             'entity_class' => 'AqilixAPI\\Image\\V1\\Rest\\Images\\ImagesEntity',
             'collection_class' => 'AqilixAPI\\Image\\V1\\Rest\\Images\\ImagesCollection',
@@ -150,6 +151,12 @@ return array(
                     0 => array(
                         'name' => 'Zend\\Validator\\NotEmpty',
                         'options' => array(),
+                    ),
+                    1 => array(
+                        'name' => 'Zend\\I18n\\Validator\\Alnum',
+                        'options' => array(
+                            'allowwhitespace' => true,
+                        ),
                     ),
                 ),
                 'filters' => array(

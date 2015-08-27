@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use AqilixAPI\Image\Mapper\ImageInterface as ImageMapperInterface;
 use AqilixAPI\Image\Entity\ImageInterface as ImageEntityInterface;
 use Zend\Paginator\Paginator as ZendPaginator;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\Tools\Pagination\Paginator as DoctrinePaginator;
 use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as DoctrinePaginatorAdapter;
 
@@ -64,9 +65,25 @@ class Doctrine implements ImageMapperInterface, ServiceLocatorAwareInterface
         $query = $qb->getQuery();
         $query->useQueryCache(true);
         $query->useResultCache(true, 600, 'image-list');
-        $paginator = $this->getPaginator($query);
-        return $paginator;
+        return $query;
     }
+    
+    /**
+     * Get Paginator Adapter for list
+     *
+     * @param  unknown $query
+     * @param  boolean $fetchJoinCollection
+     * @return DoctrineORMModule\Paginator\Adapter\DoctrinePaginator
+     */
+    public function buildListPaginatorAdapter(array $params)
+    {
+        $query   = $this->fetchAll($params);
+        $doctrinePaginator = new DoctrinePaginator($query, true);
+        $adapter = new DoctrinePaginatorAdapter($doctrinePaginator);
+    
+        return $adapter;
+    }
+    
     
     /**
      * Update Image
@@ -167,21 +184,5 @@ class Doctrine implements ImageMapperInterface, ServiceLocatorAwareInterface
     protected function getEntityRepository()
     {
         return $this->getEntityManager()->getRepository('AqilixAPI\Image\Entity\Image');
-    }
-    
-    /**
-     * Get Paginator
-     * 
-     * @param unknown $query
-     * @param boolean $fetchJoinCollection
-     * @return \Zend\Paginator\Paginator
-     */
-    protected function getPaginator($query, $fetchJoinCollection = true)
-    {
-        $doctrinePaginator = new DoctrinePaginator($query, $fetchJoinCollection);
-        $adapter   = new DoctrinePaginatorAdapter($doctrinePaginator);
-        $paginator = new ZendPaginator($adapter);
-    
-        return $paginator;
     }
 }

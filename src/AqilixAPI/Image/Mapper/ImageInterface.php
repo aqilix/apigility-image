@@ -20,4 +20,6 @@ interface ImageInterface
     public function update(ImageEntityInterface $entity);
     
     public function delete(ImageEntityInterface $entity);
+    
+    public function buildListPaginatorAdapter(array $params);
 }
