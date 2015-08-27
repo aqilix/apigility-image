@@ -14,7 +14,7 @@ return array(
             'image.rest.images' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/v1.0/images[/:page]',
+                    'route' => '/v1.0/images',
                     'defaults' => array(
                         'controller' => 'AqilixAPI\\Image\\V1\\Rest\\Images\\Controller',
                     ),
@@ -32,11 +32,13 @@ return array(
     ),
     'service_manager' => array(
         'invokables' => array(
-            'AqilixAPI\\Image\\V1\\Rest\\Image\\ImageResource'  => 'AqilixAPI\\Image\\V1\\Rest\\Image\\ImageResource',
-            'AqilixAPI\\Image\\V1\\Rest\\Image\\ImagesResource' => 'AqilixAPI\\Image\\V1\\Rest\\Image\\ImagesResource',
             'AqilixAPI\\Image\\Mapper\\Image'  => 'AqilixAPI\\Image\\Mapper\\Adapter\\Doctrine',
             'AqilixAPI\\Image\\Service\\Image' => 'AqilixAPI\\Image\\Service\\Image',
             'AqilixAPI\\Image\\SharedEventListener' => 'AqilixAPI\\Image\\Service\\SharedEventListener',
+            'AqilixAPI\\Image\\V1\\Rest\\Image\\ImageResource'   =>
+                'AqilixAPI\\Image\\V1\\Rest\\Image\\ImageResource',
+            'AqilixAPI\\Image\\V1\\Rest\\Images\\ImagesResource' =>
+                'AqilixAPI\\Image\\V1\\Rest\\Images\\ImagesResource',
             'AqilixAPI\\Image\\Stdlib\\Hydrator\\Strategy\\AssetManagerResolverStrategy' =>
                 'AqilixAPI\\Image\\Stdlib\\Hydrator\\Strategy\\AssetManagerResolverStrategy'
         ),
@@ -78,8 +80,10 @@ return array(
             'collection_http_methods' => array(
                 0 => 'GET',
             ),
-            'collection_query_whitelist' => array(),
-            'page_size' => 25,
+            'collection_query_whitelist' => array(
+               0 => 'page'
+            ),
+            'page_size' => 5,
             'page_size_param' => null,
             'entity_class' => 'AqilixAPI\\Image\\V1\\Rest\\Images\\ImagesEntity',
             'collection_class' => 'AqilixAPI\\Image\\V1\\Rest\\Images\\ImagesCollection',
@@ -147,6 +151,12 @@ return array(
                     0 => array(
                         'name' => 'Zend\\Validator\\NotEmpty',
                         'options' => array(),
+                    ),
+                    1 => array(
+                        'name' => 'Zend\\I18n\\Validator\\Alnum',
+                        'options' => array(
+                            'allowwhitespace' => true,
+                        ),
                     ),
                 ),
                 'filters' => array(

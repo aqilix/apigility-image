@@ -15,9 +15,11 @@ interface ImageInterface
     
     public function fetchOne($id);
     
-    public function fetchAll($id, $page);
+    public function fetchAll(array $params);
     
     public function update(ImageEntityInterface $entity);
     
     public function delete(ImageEntityInterface $entity);
+    
+    public function buildListPaginatorAdapter(array $params);
 }
