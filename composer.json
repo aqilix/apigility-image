@@ -5,7 +5,8 @@
   "keywords" : [ "framework", "zf2", "api", "apigility", "image" ],
   "require"  : {
     "php" : ">=5.3.3",
-    "doctrine/doctrine-orm-module" : "=0.8.0"
+    "doctrine/doctrine-orm-module" : "=0.8.0",
+    "zfcampus/zf-oauth2-doctrine"  : "0.3.5"
   },
   "require-dev" : {
     "zend/zend-studio-development-mode" : "~1.0",
