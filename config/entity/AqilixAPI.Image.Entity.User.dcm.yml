@@ -1,0 +1,53 @@
+AqilixAPI\Image\Entity\User:
+    name: AqilixAPI\Image\Entity\User
+    type: entity
+    table: user
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        username:
+            type: string
+            nullable: false
+            length: 32
+            options:
+                fixed: false
+        password:
+            type: string
+            nullable: false
+            length: 64
+            options:
+                fixed: false
+        profile:
+            type: string
+            nullable: true
+            length: 256
+            options:
+                fixed: false
+        email:
+            type: string
+            nullable: false
+            length: 128
+            options:
+                fixed: false
+        country:
+            type: string
+            nullable: true
+            length: 2
+            options:
+                fixed: true
+        phoneNumber:
+            type: string
+            nullable: false
+            length: 24
+            column: phone_number
+            options:
+                fixed: false
+    lifecycleCallbacks: {  }
+
