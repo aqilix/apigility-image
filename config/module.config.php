@@ -143,6 +143,23 @@ return array(
             'input_filter' => 'AqilixAPI\\Image\\V1\\Rest\\Image\\Validator',
         ),
     ),
+    'zf-mvc-auth' => array(
+        'authorization' => array(
+            'AqilixAPI\\Image\\V1\\Rest\\Image\\Controller' => array(
+                'entity' => array(
+                    'GET' => true,
+                    'POST' => true,
+                    'PATCH' => true,
+                    'DELETE' => true,
+                ),
+            ),
+            'AqilixAPI\\Image\\V1\\Rest\\Images\\Controller' => array(
+                'collection' => array(
+                    'GET' => true,
+                ),
+            ),
+        ),
+    ),
     'input_filter_specs' => array(
         'AqilixAPI\\Image\\V1\\Rest\\Image\\Validator' => array(
             0 => array(
