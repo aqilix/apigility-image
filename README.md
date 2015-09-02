@@ -33,7 +33,7 @@ This is a ZF2/Apigility module, so to use it on your ZF2/Apigility project, need
     .
     .
     .
-    "aqilixapi/image": "dev-master"
+    "aqilixapi/image": "1.0"
   }
 ```
 
