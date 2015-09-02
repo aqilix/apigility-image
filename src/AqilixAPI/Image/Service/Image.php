@@ -73,14 +73,17 @@ class Image implements ServiceLocatorAwareInterface
         $data   = array();
         $config = $this->getServiceLocator()->get('Config');
         $inputFilter = $this->getInputFilter();
-        // add filter for fileinput
-        $fileInput   = $inputFilter->get('image');
-        $fileInput->getFilterChain()
-            ->attach(new Filter\File\RenameUpload(array(
-                'target' => $config['images']['target'],
-                'randomize' => true,
-                'use_upload_extension' => true
+        if ($inputFilter instanceof Filter) {
+            // add filter for fileinput
+            $fileInput   = $inputFilter->get('image');
+            $fileInput->getFilterChain()
+                ->attach(new Filter\File\RenameUpload(array(
+                    'target' => $config['images']['target'],
+                    'randomize' => true,
+                    'use_upload_extension' => true
             )));
+        }
+        
         if ($this->entity === null && $this->getIdentifier() === null) {
             // new image entity
             $data = array(
