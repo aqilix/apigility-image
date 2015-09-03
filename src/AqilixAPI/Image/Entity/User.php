@@ -4,11 +4,13 @@ namespace AqilixAPI\Image\Entity;
 
 use ZF\OAuth2\Doctrine\Entity\UserInterface;
 use Zend\Stdlib\ArraySerializableInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class User implements UserInterface, ArraySerializableInterface
 {
     protected $id;
     protected $client;
+    protected $images;
     protected $accessToken;
     protected $authorizationCode;
     protected $refreshToken;
@@ -148,6 +150,63 @@ class User implements UserInterface, ArraySerializableInterface
         return $this->client;
     }
 
+    /**
+     * Set images
+     * 
+     * @param  \Doctrine\Common\Collections\ArrayCollection $images
+     * @return \Application\Entity\User
+     */
+    public function setImages($images)
+    {
+        $this->images = $images;
+
+        return $this;
+    }
+
+    /**
+     * Get images
+     * 
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getImages()
+    {
+        return $this->images;
+    }
+
+    /**
+     * Add image
+     * 
+     * @param  AqilixAPI\Image\Entity\Image $image
+     */
+    public function addImage(Image $image)
+    {
+        $this->images->add($image);
+    }
+
+    /**
+     * Add images
+     * 
+     * @param  \Doctrine\Common\Collections\ArrayCollection $images
+     */
+    public function addImages(ArrayCollection $images)
+    {
+        foreach ($images as $image) {
+            $this->images->add($image);
+        }
+    }
+
+    /**
+     * Remove images
+     * 
+     * @param  \Doctrine\Common\Collections\ArrayCollection $images
+     */
+    public function removeImages(ArrayCollection $images)
+    {
+        foreach ($images as $image) {
+            $this->images->removeElement($image);
+        }
+    }
+    
     public function getAccessToken()
     {
         return $this->accessToken;

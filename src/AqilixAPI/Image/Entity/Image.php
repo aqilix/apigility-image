@@ -3,6 +3,7 @@
 namespace AqilixAPI\Image\Entity;
 
 use AqilixAPI\Image\Entity\ImageInterface as ImageEntityInterface;
+use ZF\OAuth2\Doctrine\Entity\UserInterface as UserEntityInterface;
 
 /**
  * Image Entity
@@ -15,6 +16,11 @@ class Image implements ImageEntityInterface
      * @var Int
      */
     protected $id;
+    
+    /**
+     * @var UserEntityInterface
+     */
+    protected $user;
     
     /**
      * @var String
@@ -60,6 +66,26 @@ class Image implements ImageEntityInterface
     public function setId($id)
     {
         $this->id = $id;
+    }
+    
+    /**
+     * Set user
+     *
+     * @param $user
+     */
+    public function setUser(UserEntityInterface $user = null)
+    {
+        $this->user = $user;
+    }
+    
+    /**
+     * Get user
+     *
+     * @return User
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 
     /**

@@ -37,4 +37,10 @@ AqilixAPI\Image\Entity\Image:
         utime:
             type: datetime
             nullable: true
+    manyToOne:
+        user:
+            targetEntity: AqilixAPI\Image\Entity\User
+            joinColumn:
+                onDelete: SET NULL
+            cascade: [ persist ]
     lifecycleCallbacks: {  }
