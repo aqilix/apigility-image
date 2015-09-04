@@ -148,10 +148,12 @@ return array(
             'AqilixAPI\\Image\\V1\\Rest\\Image\\Controller' => array(
                 'entity' => array(
                     'GET' => true,
-                    'POST' => true,
                     'PATCH' => true,
                     'DELETE' => true,
                 ),
+                'collection' => array(
+                    'POST' => true,
+                )
             ),
             'AqilixAPI\\Image\\V1\\Rest\\Images\\Controller' => array(
                 'collection' => array(
