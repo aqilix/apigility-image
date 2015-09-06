@@ -240,4 +240,20 @@ return array(
         'thumb_path' => 'data/upload/images/thumbs',
         'ori_path'   => 'data/upload/images/ori',
     ),
+    'authorization' => array(
+        'roles' => array('mobile', array('web', 'mobile')),
+        'resources' => array(
+            0 => 'AqilixAPI\Image\V1\Rest\Image\Controller::collection'
+        ),
+        'rules' => array(
+            'TYPE_DENY' => array(
+                0 => array(
+                    'role' => 'web',
+                    'resource'  => 'AqilixAPI\Image\V1\Rest\Image\Controller::collection',
+                    'privilege' => 'POST',
+                ),
+            ),
+            'TYPE_ALLOW' => array()
+        )
+    )
 );
