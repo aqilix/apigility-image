@@ -6,6 +6,7 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 use Zend\Paginator\Adapter\AdapterInterface as PaginatorAdapter;
 use Zend\Paginator\Paginator as ZendPaginator;
+use Zend\InputFilter\InputFilter;
 use Zend\Filter;
 use AqilixAPI\Image\Entity\ImageInterface as ImageEntityInterface;
 use AqilixAPI\Image\Entity\Image as ImageEntity;
@@ -73,7 +74,7 @@ class Image implements ServiceLocatorAwareInterface
         $data   = array();
         $config = $this->getServiceLocator()->get('Config');
         $inputFilter = $this->getInputFilter();
-        if ($inputFilter instanceof Filter) {
+        if ($inputFilter instanceof InputFilter) {
             // add filter for fileinput
             $fileInput   = $inputFilter->get('image');
             $fileInput->getFilterChain()
