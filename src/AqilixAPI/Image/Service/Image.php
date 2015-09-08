@@ -6,7 +6,9 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 use Zend\Paginator\Adapter\AdapterInterface as PaginatorAdapter;
 use Zend\Paginator\Paginator as ZendPaginator;
+use Zend\InputFilter\InputFilter;
 use Zend\Filter;
+use AqilixAPI\Image\Entity\User;
 use AqilixAPI\Image\Entity\ImageInterface as ImageEntityInterface;
 use AqilixAPI\Image\Entity\Image as ImageEntity;
 use AqilixAPI\Image\Mapper\ImageInterface as ImageMapperInterface;
@@ -17,6 +19,11 @@ class Image implements ServiceLocatorAwareInterface
      * @var int
      */
     protected $identifier;
+    
+    /**
+     * @var \AqilixAPI\Image\Entity\User
+     */
+    protected $user;
 
     /**
      * @var \AqilixAPI\Image\Entity\ImageEntityInterface
@@ -54,6 +61,28 @@ class Image implements ServiceLocatorAwareInterface
     }
     
     /**
+     * Get User Entity
+     * 
+     * @return User
+     */
+    public function getUser()
+    {
+        if ($this->user === null) {
+            $this->setUser($this->getServiceLocator()->get('image.authenticated.user'));
+        }
+        
+        return $this->user;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function setUser(User $user)
+    {
+        $this->user = $user;
+    }
+
+    /**
      * Set Entity
      *
      * @param ImageEntityInterface $entity
@@ -73,20 +102,25 @@ class Image implements ServiceLocatorAwareInterface
         $data   = array();
         $config = $this->getServiceLocator()->get('Config');
         $inputFilter = $this->getInputFilter();
-        // add filter for fileinput
-        $fileInput   = $inputFilter->get('image');
-        $fileInput->getFilterChain()
-            ->attach(new Filter\File\RenameUpload(array(
-                'target' => $config['images']['target'],
-                'randomize' => true,
-                'use_upload_extension' => true
+        if ($inputFilter instanceof InputFilter) {
+            // add filter for fileinput
+            $fileInput   = $inputFilter->get('image');
+            $fileInput->getFilterChain()
+                ->attach(new Filter\File\RenameUpload(array(
+                    'target' => $config['images']['target'],
+                    'randomize' => true,
+                    'use_upload_extension' => true
             )));
+        }
+        
+        // @todo set user id
         if ($this->entity === null && $this->getIdentifier() === null) {
             // new image entity
             $data = array(
                 'description' => $inputFilter->getValue('description'),
+                'user'  => $this->getUser(),
                 'path'  => $inputFilter->getValue('image')['tmp_name'],
-                'ctime' => new \DateTime()
+                'ctime' => new \DateTime(),
             );
             $this->entity = $this->getMapper()->getHydrator()->hydrate($data, new ImageEntity());
         } else {
@@ -95,6 +129,7 @@ class Image implements ServiceLocatorAwareInterface
             if ($inputFilter !== null) {
                 $data = array(
                     'description' => $inputFilter->getValue('description'),
+                    'user'  => $this->getUser(),
                     'utime' => new \DateTime()
                 );
             }
@@ -113,6 +148,7 @@ class Image implements ServiceLocatorAwareInterface
      */
     public function getCollection(array $params)
     {
+        $params  = array('image.user' => $this->getUser());
         $adapter = $this->getMapper()->buildListPaginatorAdapter($params);
         return self::buildPaginator($adapter);
     }

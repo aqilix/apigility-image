@@ -18,7 +18,7 @@ use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as DoctrinePaginatorAd
  *
  * @author Dolly Aswin <dolly.aswin@gmail.com>
  */
-class Doctrine implements ImageMapperInterface, ServiceLocatorAwareInterface
+class DoctrineORMImage implements ImageMapperInterface, ServiceLocatorAwareInterface
 {
     /**
      * @var Doctrine\ORM\EntityManagerInterface
@@ -62,6 +62,8 @@ class Doctrine implements ImageMapperInterface, ServiceLocatorAwareInterface
     public function fetchAll(array $params)
     {
         $qb = $this->getEntityRepository()->createQueryBuilder('image');
+        $qb->where('image.user = :user')
+          ->setParameter('user', $params['image.user']);
         $query = $qb->getQuery();
         $query->useQueryCache(true);
         $query->useResultCache(true, 600, 'image-list');

@@ -1,7 +1,7 @@
-AqilixAPI\Image\Entity\Image:
-    name: AqilixAPI\Image\Entity\Image
+AqilixAPI\Image\Entity\User:
+    name: AqilixAPI\Image\Entity\User
     type: entity
-    table: image
+    table: user
     id:
         id:
             type: integer
@@ -12,35 +12,42 @@ AqilixAPI\Image\Entity\Image:
             generator:
                 strategy: IDENTITY
     fields:
-        path:
+        username:
             type: string
             nullable: false
-            length: 256
+            length: 32
             options:
                 fixed: false
-        thumbPath:
+        password:
             type: string
             nullable: false
-            length: 256
-            column: thumb_path
+            length: 64
             options:
                 fixed: false
-        description:
+        profile:
             type: string
-            nullable: false
-            length: 256
-            options:
-                fixed: false
-        ctime:
-            type: datetime
-            nullable: false
-        utime:
-            type: datetime
             nullable: true
-    manyToOne:
-        user:
-            targetEntity: AqilixAPI\Image\Entity\User
-            joinColumn:
-                onDelete: SET NULL
-            cascade: [ persist ]
+            length: 256
+            options:
+                fixed: false
+        email:
+            type: string
+            nullable: false
+            length: 128
+            options:
+                fixed: false
+        country:
+            type: string
+            nullable: true
+            length: 2
+            options:
+                fixed: true
+        phoneNumber:
+            type: string
+            nullable: false
+            length: 24
+            column: phone_number
+            options:
+                fixed: false
     lifecycleCallbacks: {  }
+

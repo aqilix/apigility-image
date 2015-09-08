@@ -32,7 +32,8 @@ return array(
     ),
     'service_manager' => array(
         'invokables' => array(
-            'AqilixAPI\\Image\\Mapper\\Image'  => 'AqilixAPI\\Image\\Mapper\\Adapter\\Doctrine',
+            'AqilixAPI\\Image\\Mapper\\Image'  => 'AqilixAPI\\Image\\Mapper\\Adapter\\DoctrineORMImage',
+            'AqilixAPI\\Image\\Mapper\\User'   => 'AqilixAPI\\Image\\Mapper\\Adapter\\DoctrineORMUser',
             'AqilixAPI\\Image\\Service\\Image' => 'AqilixAPI\\Image\\Service\\Image',
             'AqilixAPI\\Image\\SharedEventListener' => 'AqilixAPI\\Image\\Service\\SharedEventListener',
             'AqilixAPI\\Image\\V1\\Rest\\Image\\ImageResource'   =>
@@ -42,7 +43,9 @@ return array(
             'AqilixAPI\\Image\\Stdlib\\Hydrator\\Strategy\\AssetManagerResolverStrategy' =>
                 'AqilixAPI\\Image\\Stdlib\\Hydrator\\Strategy\\AssetManagerResolverStrategy'
         ),
-    
+        'factories' => array(
+            'image.authenticated.user' => 'AqilixAPI\\Image\\Service\\Factory\\AuthUserFactory'
+        )
     ),
     'zf-versioning' => array(
         'uri' => array(
@@ -143,6 +146,25 @@ return array(
             'input_filter' => 'AqilixAPI\\Image\\V1\\Rest\\Image\\Validator',
         ),
     ),
+    'zf-mvc-auth' => array(
+        'authorization' => array(
+            'AqilixAPI\\Image\\V1\\Rest\\Image\\Controller' => array(
+                'entity' => array(
+                    'GET' => true,
+                    'PATCH' => true,
+                    'DELETE' => true,
+                ),
+                'collection' => array(
+                    'POST' => true,
+                )
+            ),
+            'AqilixAPI\\Image\\V1\\Rest\\Images\\Controller' => array(
+                'collection' => array(
+                    'GET' => true,
+                ),
+            ),
+        ),
+    ),
     'input_filter_specs' => array(
         'AqilixAPI\\Image\\V1\\Rest\\Image\\Validator' => array(
             0 => array(
@@ -221,4 +243,20 @@ return array(
         'thumb_path' => 'data/upload/images/thumbs',
         'ori_path'   => 'data/upload/images/ori',
     ),
+    'authorization' => array(
+        'roles' => array('mobile', array('web', 'mobile')),
+        'resources' => array(
+            0 => 'AqilixAPI\Image\V1\Rest\Image\Controller::collection'
+        ),
+        'rules' => array(
+            'TYPE_DENY' => array(
+                0 => array(
+                    'role' => 'web',
+                    'resource'  => 'AqilixAPI\Image\V1\Rest\Image\Controller::collection',
+                    'privilege' => 'POST',
+                ),
+            ),
+            'TYPE_ALLOW' => array()
+        )
+    )
 );

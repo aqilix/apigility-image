@@ -4,8 +4,7 @@ namespace AqilixAPI\Image\Service\Factory;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
-use AqilixAPI\Image\Stdlib\Hydrator\Strategy\ISODateTimeStrategy;
-use AqilixAPI\Image\Stdlib\Hydrator\Strategy\AssetManagerResolverStrategy;
+use \AqilixAPI\Image\Stdlib\Hydrator\Strategy as HydratorStrategy;
 
 /**
  * Hydrator for Doctrine Entity
@@ -26,8 +25,9 @@ class DoctrineObjectHydratorFactory implements FactoryInterface
         $amResolverStrategy = $parentServiceLocator
                                 ->get('AqilixAPI\\Image\\Stdlib\\Hydrator\\Strategy\\AssetManagerResolverStrategy');
         $hydrator = new DoctrineObject($entityManager);
-        $hydrator->addStrategy('ctime', new ISODateTimeStrategy);
-        $hydrator->addStrategy('utime', new ISODateTimeStrategy);
+        $hydrator->addStrategy('user', new HydratorStrategy\UsernameStrategy);
+        $hydrator->addStrategy('ctime', new HydratorStrategy\ISODateTimeStrategy);
+        $hydrator->addStrategy('utime', new HydratorStrategy\ISODateTimeStrategy);
         $hydrator->addStrategy('path', $amResolverStrategy);
         $hydrator->addStrategy('thumbPath', $amResolverStrategy);
         return $hydrator;
