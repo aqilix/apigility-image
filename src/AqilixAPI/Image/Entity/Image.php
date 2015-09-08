@@ -3,7 +3,7 @@
 namespace AqilixAPI\Image\Entity;
 
 use AqilixAPI\Image\Entity\ImageInterface as ImageEntityInterface;
-use ZF\OAuth2\Doctrine\Entity\UserInterface as UserEntityInterface;
+use AqilixAPI\Image\Entity\UserInterface as UserEntityInterface;
 
 /**
  * Image Entity

@@ -32,7 +32,8 @@ return array(
     ),
     'service_manager' => array(
         'invokables' => array(
-            'AqilixAPI\\Image\\Mapper\\Image'  => 'AqilixAPI\\Image\\Mapper\\Adapter\\Doctrine',
+            'AqilixAPI\\Image\\Mapper\\Image'  => 'AqilixAPI\\Image\\Mapper\\Adapter\\DoctrineORMImage',
+            'AqilixAPI\\Image\\Mapper\\User'   => 'AqilixAPI\\Image\\Mapper\\Adapter\\DoctrineORMUser',
             'AqilixAPI\\Image\\Service\\Image' => 'AqilixAPI\\Image\\Service\\Image',
             'AqilixAPI\\Image\\SharedEventListener' => 'AqilixAPI\\Image\\Service\\SharedEventListener',
             'AqilixAPI\\Image\\V1\\Rest\\Image\\ImageResource'   =>
@@ -42,7 +43,9 @@ return array(
             'AqilixAPI\\Image\\Stdlib\\Hydrator\\Strategy\\AssetManagerResolverStrategy' =>
                 'AqilixAPI\\Image\\Stdlib\\Hydrator\\Strategy\\AssetManagerResolverStrategy'
         ),
-    
+        'factories' => array(
+            'image.authenticated.user' => 'AqilixAPI\\Image\\Service\\Factory\\AuthUserFactory'
+        )
     ),
     'zf-versioning' => array(
         'uri' => array(

@@ -39,7 +39,7 @@ class ImageResource extends AbstractResourceListener
             $this->getEventManager()->trigger(ImageEvent::POST_SUCCESS, null, $entity);
             return $image;
         } catch (\Exception $e) {
-            $this->getEventManager()->trigger(ImageEvent::POST_DELETE, null, $entity);
+            $this->getEventManager()->trigger(ImageEvent::POST_FAILED, null, $entity);
             return new ApiProblem(500, 'Uploading image error');
         }
     }

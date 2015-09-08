@@ -18,7 +18,7 @@ use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as DoctrinePaginatorAd
  *
  * @author Dolly Aswin <dolly.aswin@gmail.com>
  */
-class Doctrine implements ImageMapperInterface, ServiceLocatorAwareInterface
+class DoctrineORMImage implements ImageMapperInterface, ServiceLocatorAwareInterface
 {
     /**
      * @var Doctrine\ORM\EntityManagerInterface

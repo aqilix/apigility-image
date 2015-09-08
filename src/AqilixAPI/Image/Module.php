@@ -25,6 +25,7 @@ class Module implements ApigilityProviderInterface
     {
         UriFactory::registerScheme('chrome-extension', 'Zend\Uri\Uri'); // add chrome-extension for API Client
         $serviceManager = $e->getApplication()->getServiceManager();
+//         var_dump($serviceManager->get('authentication')->getStorage());
         $eventManager   = $e->getApplication()->getEventManager();
         $sharedEventManager = $eventManager->getSharedManager();
         // attach image shared event listener
@@ -48,8 +49,10 @@ class Module implements ApigilityProviderInterface
         $eventManager->attach(
             MvcAuthEvent::EVENT_AUTHORIZATION,
             function ($mvcAuthEvent) use ($serviceManager) {
+                $imageService = $serviceManager->get('AqilixAPI\\Image\\Service\\Image');
+                $authService  = $mvcAuthEvent->getAuthorizationService();
                 $config = $serviceManager->get('Config')['authorization'];
-                $authService = $mvcAuthEvent->getAuthorizationService();
+                $imageService->setUser($serviceManager->get('image.authenticated.user'));
                 // add roles to ACL
                 foreach ($config['roles'] as $role) {
                     if (!is_array($role)) {

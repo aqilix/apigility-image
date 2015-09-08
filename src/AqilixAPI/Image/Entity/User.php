@@ -2,11 +2,11 @@
 
 namespace AqilixAPI\Image\Entity;
 
-use ZF\OAuth2\Doctrine\Entity\UserInterface;
+use ZF\OAuth2\Doctrine\Entity\UserInterface as ZFOAuth2DoctrineUserInterface;
 use Zend\Stdlib\ArraySerializableInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 
-class User implements UserInterface, ArraySerializableInterface
+class User implements UserInterface, ZFOAuth2DoctrineUserInterface, ArraySerializableInterface
 {
     protected $id;
     protected $client;
