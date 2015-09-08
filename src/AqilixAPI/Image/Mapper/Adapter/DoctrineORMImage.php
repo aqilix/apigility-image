@@ -62,6 +62,8 @@ class DoctrineORMImage implements ImageMapperInterface, ServiceLocatorAwareInter
     public function fetchAll(array $params)
     {
         $qb = $this->getEntityRepository()->createQueryBuilder('image');
+        $qb->where('image.user = :user')
+          ->setParameter('user', $params['image.user']);
         $query = $qb->getQuery();
         $query->useQueryCache(true);
         $query->useResultCache(true, 600, 'image-list');

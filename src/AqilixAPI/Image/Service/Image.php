@@ -148,6 +148,7 @@ class Image implements ServiceLocatorAwareInterface
      */
     public function getCollection(array $params)
     {
+        $params  = array('image.user' => $this->getUser());
         $adapter = $this->getMapper()->buildListPaginatorAdapter($params);
         return self::buildPaginator($adapter);
     }
