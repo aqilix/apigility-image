@@ -21,6 +21,11 @@ class Image implements ServiceLocatorAwareInterface
     protected $identifier;
     
     /**
+     * @var array
+     */
+    protected $content;
+    
+    /**
      * @var \AqilixAPI\Image\Entity\User
      */
     protected $user;
@@ -61,27 +66,74 @@ class Image implements ServiceLocatorAwareInterface
     }
     
     /**
-     * Get User Entity
-     * 
-     * @return User
+     * Set InputFilter
+     *
+     * @param InputFilterInterface $inputFilter
      */
-    public function getUser()
+    public function setInputFilter(InputFilterInterface $inputFilter = null)
     {
-        if ($this->user === null) {
-            $this->setUser($this->getServiceLocator()->get('image.authenticated.user'));
+        $this->inputFilter = $inputFilter;
+    }
+    
+    /**
+     * Get InputFilter
+     *
+     * @return InputFilterInterface
+     */
+    public function getInputFilter()
+    {
+        return $this->inputFilter;
+    }
+    
+    /**
+     * Set Content
+     *
+     * @param array $content
+     */
+    public function setContent(array $content)
+    {
+        $this->content = $content;
+    }
+    
+    /**
+     * Get Content
+     */
+    public function getContent()
+    {
+        if ($this->content !== null) {
+            return $this->content;
         }
         
-        return $this->user;
+        $config = $this->getServiceLocator()->get('Config');
+        $data   = array();
+        $inputFilter = $this->getInputFilter();
+        if ($inputFilter instanceof InputFilter) {
+            // add filter for fileinput
+            $fileInput = $inputFilter->get('image');
+            $fileInput->getFilterChain()
+                ->attach(new Filter\File\RenameUpload(array(
+                    'target' => $config['images']['target'],
+                    'randomize' => true,
+                    'use_upload_extension' => true
+                )));
+            if ($inputFilter->getValue('image') !== null) {
+                $data['path'] = $inputFilter->getValue('image')['tmp_name'];
+            }
+            
+            if ($this->getIdentifier() === null) {
+                $data['ctime'] = new \DateTime();
+            } else {
+                $data['utime'] = new \DateTime();
+            }
+            
+            $data['description'] = $inputFilter->getValue('description');
+            $data['user'] = $this->getUser();
+        }
+        
+        $this->content = $data;
+        return $this->content;
     }
-
-    /**
-     * @param User $user
-     */
-    public function setUser(User $user)
-    {
-        $this->user = $user;
-    }
-
+    
     /**
      * Set Entity
      *
@@ -99,6 +151,7 @@ class Image implements ServiceLocatorAwareInterface
      */
     public function getEntity()
     {
+        /**
         $data   = array();
         $config = $this->getServiceLocator()->get('Config');
         $inputFilter = $this->getInputFilter();
@@ -110,10 +163,9 @@ class Image implements ServiceLocatorAwareInterface
                     'target' => $config['images']['target'],
                     'randomize' => true,
                     'use_upload_extension' => true
-            )));
+                )));
         }
-        
-        // @todo set user id
+    
         if ($this->entity === null && $this->getIdentifier() === null) {
             // new image entity
             $data = array(
@@ -133,11 +185,47 @@ class Image implements ServiceLocatorAwareInterface
                     'utime' => new \DateTime()
                 );
             }
-            
+    
             $this->entity = $this->getMapper()->getHydrator()->hydrate($data, $this->entity);
+        }
+        */
+    
+        if ($this->entity !== null) {
+            return $this->entity;
+        } elseif ($this->getIdentifier() === null) {
+            $data = $this->getContent();
+            $this->entity = $this->getMapper()->getHydrator()->hydrate($data, new ImageEntity());
+        } else {
+//             $entity = $this->getMapper()->fetchOne($this->getIdentifier());
+//             $this->entity = $this->getMapper()->getHydrator()->hydrate($data, $this->entity);
+            $data   = $this->getContent();
+            $entity = $this->getServiceLocator()->get('image.requested.image');
+            $this->entity = $this->getMapper()->getHydrator()->hydrate($data, $entity);
         }
         
         return $this->entity;
+    }
+    
+    /**
+     * Get User Entity
+     * 
+     * @return User
+     */
+    public function getUser()
+    {
+        if ($this->user === null) {
+            $this->setUser($this->getServiceLocator()->get('image.authenticated.user'));
+        }
+        
+        return $this->user;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function setUser(User $user)
+    {
+        $this->user = $user;
     }
     
     /**
@@ -160,26 +248,6 @@ class Image implements ServiceLocatorAwareInterface
     {
         $mapper = $this->getServiceLocator()->get('AqilixAPI\\Image\\Mapper\\Image');
         return $mapper->getHydrator()->extract($this->getEntity());
-    }
-    
-    /**
-     * Set InputFilter
-     *
-     * @param InputFilterInterface $inputFilter
-     */
-    public function setInputFilter(InputFilterInterface $inputFilter = null)
-    {
-        $this->inputFilter = $inputFilter;
-    }
-    
-    /**
-     * Get InputFilter
-     *
-     * @return InputFilterInterface
-     */
-    public function getInputFilter()
-    {
-        return $this->inputFilter;
     }
 
     /**

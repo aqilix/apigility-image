@@ -75,7 +75,9 @@ class ImageResource extends AbstractResourceListener
      */
     public function fetch($id)
     {
-        return $this->getMapper()->fetchOne($id);
+        $imageService = $this->getServiceLocator()->get('AqilixAPI\\Image\\Service\\Image');
+        $imageService->setIdentifier($id);
+        return $imageService->getEntity();
     }
 
     /**

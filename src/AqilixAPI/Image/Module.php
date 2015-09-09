@@ -43,36 +43,12 @@ class Module implements ApigilityProviderInterface
             },
             100
         );
-        // define ACL
+        // attach ACL for checking Client ID
         $eventManager->attach(
             MvcAuthEvent::EVENT_AUTHORIZATION,
             $serviceManager->get('AqilixAPI\\Image\\Authorization\\AclClientIDListener'),
             100
         );
-//         $eventManager->attach(
-//             MvcAuthEvent::EVENT_AUTHORIZATION,
-//             function ($mvcAuthEvent) use ($serviceManager) {
-//                 $imageService = $serviceManager->get('AqilixAPI\\Image\\Service\\Image');
-//                 $authService  = $mvcAuthEvent->getAuthorizationService();
-//                 $config = $serviceManager->get('Config')['authorization'];
-//                 $imageService->setUser($serviceManager->get('image.authenticated.user'));
-//                 // add roles to ACL
-//                 foreach ($config['roles'] as $role) {
-//                     if (!is_array($role)) {
-//                         $authService->addRole($role);
-//                     } else {
-//                         $authService->addRole($role[0], $role[1]);
-//                     }
-//                 }
-//                 // add rules
-//                 foreach ($config['rules'] as $type => $rules) {
-//                     foreach ($rules as $rule) {
-//                         $authService->setRule(Acl::OP_ADD, $type, $rule['role'], $rule['resource'], $rule['privilege']);
-//                     }
-//                 }
-//             },
-//             100
-//         );
         // attach ACL for checking image owner
         $eventManager->attach(
             MvcAuthEvent::EVENT_AUTHORIZATION_POST,
