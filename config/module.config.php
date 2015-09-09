@@ -32,11 +32,14 @@ return array(
     ),
     'service_manager' => array(
         'invokables' => array(
-            'AqilixAPI\\Image\\Authorization\\AclImageListener' =>'AqilixAPI\\Image\\Authorization\\AclImageListener',
             'AqilixAPI\\Image\\Mapper\\Image'  => 'AqilixAPI\\Image\\Mapper\\Adapter\\DoctrineORMImage',
             'AqilixAPI\\Image\\Mapper\\User'   => 'AqilixAPI\\Image\\Mapper\\Adapter\\DoctrineORMUser',
             'AqilixAPI\\Image\\Service\\Image' => 'AqilixAPI\\Image\\Service\\Image',
             'AqilixAPI\\Image\\SharedEventListener' => 'AqilixAPI\\Image\\Service\\SharedEventListener',
+            'AqilixAPI\\Image\\Authorization\\AclImageListener'    =>
+                'AqilixAPI\\Image\\Authorization\\AclImageListener',
+            'AqilixAPI\\Image\\Authorization\\AclClientIDListener' =>
+                'AqilixAPI\\Image\\Authorization\\AclCLientIDListener',
             'AqilixAPI\\Image\\V1\\Rest\\Image\\ImageResource'   =>
                 'AqilixAPI\\Image\\V1\\Rest\\Image\\ImageResource',
             'AqilixAPI\\Image\\V1\\Rest\\Images\\ImagesResource' =>

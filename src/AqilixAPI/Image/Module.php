@@ -11,7 +11,6 @@ use ZF\Apigility\Provider\ApigilityProviderInterface;
 use Zend\Uri\UriFactory;
 use Zend\Mvc\MvcEvent;
 use Zend\Mvc\ModuleRouteListener;
-use Zend\Permissions\Acl\Acl;
 use ZF\MvcAuth\MvcAuthEvent;
 
 /**
@@ -25,7 +24,6 @@ class Module implements ApigilityProviderInterface
     {
         UriFactory::registerScheme('chrome-extension', 'Zend\Uri\Uri'); // add chrome-extension for API Client
         $serviceManager = $e->getApplication()->getServiceManager();
-//         var_dump($serviceManager->get('authentication')->getStorage());
         $eventManager   = $e->getApplication()->getEventManager();
         $sharedEventManager = $eventManager->getSharedManager();
         // attach image shared event listener
@@ -48,28 +46,33 @@ class Module implements ApigilityProviderInterface
         // define ACL
         $eventManager->attach(
             MvcAuthEvent::EVENT_AUTHORIZATION,
-            function ($mvcAuthEvent) use ($serviceManager) {
-                $imageService = $serviceManager->get('AqilixAPI\\Image\\Service\\Image');
-                $authService  = $mvcAuthEvent->getAuthorizationService();
-                $config = $serviceManager->get('Config')['authorization'];
-                $imageService->setUser($serviceManager->get('image.authenticated.user'));
-                // add roles to ACL
-                foreach ($config['roles'] as $role) {
-                    if (!is_array($role)) {
-                        $authService->addRole($role);
-                    } else {
-                        $authService->addRole($role[0], $role[1]);
-                    }
-                }
-                // add rules
-                foreach ($config['rules'] as $type => $rules) {
-                    foreach ($rules as $rule) {
-                        $authService->setRule(Acl::OP_ADD, $type, $rule['role'], $rule['resource'], $rule['privilege']);
-                    }
-                }
-            },
+            $serviceManager->get('AqilixAPI\\Image\\Authorization\\AclClientIDListener'),
             100
         );
+//         $eventManager->attach(
+//             MvcAuthEvent::EVENT_AUTHORIZATION,
+//             function ($mvcAuthEvent) use ($serviceManager) {
+//                 $imageService = $serviceManager->get('AqilixAPI\\Image\\Service\\Image');
+//                 $authService  = $mvcAuthEvent->getAuthorizationService();
+//                 $config = $serviceManager->get('Config')['authorization'];
+//                 $imageService->setUser($serviceManager->get('image.authenticated.user'));
+//                 // add roles to ACL
+//                 foreach ($config['roles'] as $role) {
+//                     if (!is_array($role)) {
+//                         $authService->addRole($role);
+//                     } else {
+//                         $authService->addRole($role[0], $role[1]);
+//                     }
+//                 }
+//                 // add rules
+//                 foreach ($config['rules'] as $type => $rules) {
+//                     foreach ($rules as $rule) {
+//                         $authService->setRule(Acl::OP_ADD, $type, $rule['role'], $rule['resource'], $rule['privilege']);
+//                     }
+//                 }
+//             },
+//             100
+//         );
         // attach ACL for checking image owner
         $eventManager->attach(
             MvcAuthEvent::EVENT_AUTHORIZATION_POST,
