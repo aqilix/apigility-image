@@ -70,6 +70,12 @@ class Module implements ApigilityProviderInterface
             },
             100
         );
+        // attach ACL for checking image owner
+        $eventManager->attach(
+            MvcAuthEvent::EVENT_AUTHORIZATION_POST,
+            $serviceManager->get('AqilixAPI\\Image\\Authorization\\AclImageListener'),
+            100
+        );
     }
     
     public function getConfig()
