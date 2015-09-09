@@ -46,6 +46,7 @@ return array(
        .
        .
        'AqilixAPI\\Image', 
+       'ZF\\OAuth2\\Doctrine',
     )
 )
 ```
