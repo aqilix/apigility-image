@@ -151,53 +151,12 @@ class Image implements ServiceLocatorAwareInterface
      */
     public function getEntity()
     {
-        /**
-        $data   = array();
-        $config = $this->getServiceLocator()->get('Config');
-        $inputFilter = $this->getInputFilter();
-        if ($inputFilter instanceof InputFilter) {
-            // add filter for fileinput
-            $fileInput   = $inputFilter->get('image');
-            $fileInput->getFilterChain()
-                ->attach(new Filter\File\RenameUpload(array(
-                    'target' => $config['images']['target'],
-                    'randomize' => true,
-                    'use_upload_extension' => true
-                )));
-        }
-    
-        if ($this->entity === null && $this->getIdentifier() === null) {
-            // new image entity
-            $data = array(
-                'description' => $inputFilter->getValue('description'),
-                'user'  => $this->getUser(),
-                'path'  => $inputFilter->getValue('image')['tmp_name'],
-                'ctime' => new \DateTime(),
-            );
-            $this->entity = $this->getMapper()->getHydrator()->hydrate($data, new ImageEntity());
-        } else {
-            // load entity based on ID
-            $this->entity = $this->getMapper()->fetchOne($this->getIdentifier());
-            if ($inputFilter !== null) {
-                $data = array(
-                    'description' => $inputFilter->getValue('description'),
-                    'user'  => $this->getUser(),
-                    'utime' => new \DateTime()
-                );
-            }
-    
-            $this->entity = $this->getMapper()->getHydrator()->hydrate($data, $this->entity);
-        }
-        */
-    
         if ($this->entity !== null) {
             return $this->entity;
         } elseif ($this->getIdentifier() === null) {
             $data = $this->getContent();
             $this->entity = $this->getMapper()->getHydrator()->hydrate($data, new ImageEntity());
         } else {
-//             $entity = $this->getMapper()->fetchOne($this->getIdentifier());
-//             $this->entity = $this->getMapper()->getHydrator()->hydrate($data, $this->entity);
             $data   = $this->getContent();
             $entity = $this->getServiceLocator()->get('image.requested.image');
             $this->entity = $this->getMapper()->getHydrator()->hydrate($data, $entity);
