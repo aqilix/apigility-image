@@ -4,36 +4,36 @@ aqilixapi-image
 #Images API Handler
 This module is purposed to handle image for an API (create/upload, read, update, delete). It use MySQL with Doctrine ORM. This module is extendable to use another database adapter.
 
-Currently this module has support these resources.
+Currently this module has support these resources with required OAuth2 Authentication
 
 - POST  /v1.0/image
 - GET   /v1.0/image/id
 - PATCH /v1.0/image/id
 - DEL   /v1.0/image/id
 
+To retrieve the access token, you can use this resource `POST /oauth` by use some params:
+
+- grant_type
+- client_secret
+- client_id
+- username
+- password
+
 Dependencies
 ------------
 - [doctrine/doctrine-orm-module](https://packagist.org/packages/doctrine/doctrine-orm-module])
+- [zfcampus/zf-oauth2-doctrine](https://packagist.org/packages/zfcampus/zf-oauth2-doctrine])
 
 Installation
 ------------
-This is a ZF2/Apigility module, so to use it on your ZF2/Apigility project, need to add `repositories` and `require` on `composer.json`. This modules is not registered to [packagist](http://packagist.org) yet. So, you must configure the `repositories`.
-
-```
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "git@github.com:aqilix/apigility-image"
-    }
-  ],
-```
+This is a ZF2/Apigility module, so to use it on your ZF2/Apigility project, need to add `repositories` and `require` on `composer.json`. 
 
 ```
   "require": {
     .
     .
     .
-    "aqilixapi/image": "1.0"
+    "aqilixapi/image": "1.1"
   }
 ```
 
