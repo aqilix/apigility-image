@@ -90,6 +90,9 @@ After that, we need to configure the `image path`, `thumbnail path`, `original f
 
 Make sure those paths are exists and writeable by `Web Server`, but if you just use `PHP built in web server` for development you don't need to change their permissions.
 
+To enable `OAuth2` Authentication, just copy default configuration files `(config/oauth2.doctrine-orm.local.php.dist, config/oauth2.local.php.dist)` to `config/autoload/oauth2.doctrine-orm.local.php` and `config/autoload/oauth2.local.php`.
+
+
 Database
 --------
 This module use a table called `image`. Currently it use `MySQL`, but you can change it based on your need easily as long as the database is supported by `Doctrine ORM`. If you have follow instructions above, it mean just remain creating the database table.
