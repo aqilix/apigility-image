@@ -36,6 +36,10 @@ return array(
             'AqilixAPI\\Image\\Mapper\\User'   => 'AqilixAPI\\Image\\Mapper\\Adapter\\DoctrineORMUser',
             'AqilixAPI\\Image\\Service\\Image' => 'AqilixAPI\\Image\\Service\\Image',
             'AqilixAPI\\Image\\SharedEventListener' => 'AqilixAPI\\Image\\Service\\SharedEventListener',
+            'AqilixAPI\\Image\\Authorization\\AclImageListener'    =>
+                'AqilixAPI\\Image\\Authorization\\AclImageListener',
+            'AqilixAPI\\Image\\Authorization\\AclClientIDListener' =>
+                'AqilixAPI\\Image\\Authorization\\AclCLientIDListener',
             'AqilixAPI\\Image\\V1\\Rest\\Image\\ImageResource'   =>
                 'AqilixAPI\\Image\\V1\\Rest\\Image\\ImageResource',
             'AqilixAPI\\Image\\V1\\Rest\\Images\\ImagesResource' =>
@@ -44,7 +48,8 @@ return array(
                 'AqilixAPI\\Image\\Stdlib\\Hydrator\\Strategy\\AssetManagerResolverStrategy'
         ),
         'factories' => array(
-            'image.authenticated.user' => 'AqilixAPI\\Image\\Service\\Factory\\AuthUserFactory'
+            'image.authenticated.user' => 'AqilixAPI\\Image\\Service\\Factory\\AuthUserFactory',
+            'image.requested.image'    => 'AqilixAPI\\Image\\Service\\Factory\\RequestedImageFactory'
         )
     ),
     'zf-versioning' => array(

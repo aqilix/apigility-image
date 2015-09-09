@@ -21,10 +21,10 @@ class AuthUserFactory implements FactoryInterface
     {
         $authentication = $serviceLocator->get('authentication');
         $identity = $authentication->getIdentity();
+        $authUser = null;
         if ($identity instanceof \ZF\MvcAuth\Identity\GuestIdentity) {
             $authUser = new User;
         } elseif ($identity instanceof \ZF\MvcAuth\Identity\AuthenticatedIdentity) {
-            $authUser = new User;
             $authIdentity = $identity->getAuthenticationIdentity();
             $userMapper   = $serviceLocator->get('AqilixAPI\\Image\\Mapper\\User');
             $authUser = $userMapper->fetchOne($authIdentity['user_id']);
