@@ -21,8 +21,8 @@ To retrieve the access token, you can use this resource `POST /oauth` by use som
 
 Dependencies
 ------------
-- [doctrine/doctrine-orm-module](https://packagist.org/packages/doctrine/doctrine-orm-module])
-- [zfcampus/zf-oauth2-doctrine](https://packagist.org/packages/zfcampus/zf-oauth2-doctrine])
+- [doctrine/doctrine-orm-module](https://packagist.org/packages/doctrine/doctrine-orm-module)
+- [zfcampus/zf-oauth2-doctrine](https://packagist.org/packages/zfcampus/zf-oauth2-doctrine)
 
 Installation
 ------------
