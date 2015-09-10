@@ -205,8 +205,12 @@ class Image implements ServiceLocatorAwareInterface
      */
     public function getArrayEntity()
     {
-        $mapper = $this->getServiceLocator()->get('AqilixAPI\\Image\\Mapper\\Image');
-        return $mapper->getHydrator()->extract($this->getEntity());
+        $mapper   = $this->getServiceLocator()->get('AqilixAPI\\Image\\Mapper\\Image');
+        $hydrator = $mapper->getHydrator();
+        // remove asset manager aliasing path hydrator
+        $hydrator->removeStrategy('path');
+        $hydrator->removeStrategy('thumbPath');
+        return $hydrator->extract($this->getEntity());
     }
 
     /**
