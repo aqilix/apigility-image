@@ -122,18 +122,19 @@ Example
 -------
 Here are some screenshots I made while trying the API. I use `Postman Chrome Extension` as `REST Client`. You can use the same data with the screenshots, because I make it same in `Data Fixtures`.
 
+####Request Access Token From OAuth Using Credential, Client ID and Client Secret
 ![Request Access Token From OAuth Using Credential, Client ID and Client Secret](https://github.com/aqilix/apigility-image/blob/master/media/01-request-oauth2-access-token.png)
 
 **Then use the access token on `Authorization Header` while send `Request` to API**
 
-![Upload Image Using POST Method](https://github.com/aqilix/apigility-image/blob/master/media/02-uploading-image-use-post-method.png)
+####Upload Image Using POST Method![Upload Image Using POST Method](https://github.com/aqilix/apigility-image/blob/master/media/02-uploading-image-use-post-method.png)
 
-![Retrieve The Uploaded Image Using GET Method](https://github.com/aqilix/apigility-image/blob/master/media/03-retrieving-image-use-get-method.png)
+####Retrieve The Uploaded Image Using GET Method![Retrieve The Uploaded Image Using GET Method](https://github.com/aqilix/apigility-image/blob/master/media/03-retrieving-image-use-get-method.png)
 
-![Update Image Using PATCH Method](https://github.com/aqilix/apigility-image/blob/master/media/04-updating-image-use-patch-method.png)
+####Update Image Using PATCH Method![Update Image Using PATCH Method](https://github.com/aqilix/apigility-image/blob/master/media/04-updating-image-use-patch-method.png)
 
-![Retrieve Images Collection Using GET Method](https://github.com/aqilix/apigility-image/blob/master/media/05-retrieving-images-01-using-get-method.png)
+####Retrieve Images Collection Using GET Method![Retrieve Images Collection Using GET Method](https://github.com/aqilix/apigility-image/blob/master/media/05-retrieving-images-01-using-get-method.png)
 
 ![Retrieve Images Collection Using GET Method](https://github.com/aqilix/apigility-image/blob/master/media/06-retrieving-images-02-using-get-method.png)
 
-![Delete Image Using DELETE Method](https://github.com/aqilix/apigility-image/blob/master/media/07-deleting-images-using-del-method.png)
+#####Delete Image Using DELETE Method![Delete Image Using DELETE Method](https://github.com/aqilix/apigility-image/blob/master/media/07-deleting-images-using-del-method.png)
