@@ -263,5 +263,8 @@ return array(
             ),
             'TYPE_ALLOW' => array()
         )
-    )
+    ),
+    'data-fixture' => array(
+        'fixtures' => __DIR__ . '/../src/AqilixAPI/Image/Fixture'
+    ),
 );
