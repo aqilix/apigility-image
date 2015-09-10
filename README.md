@@ -47,6 +47,7 @@ return array(
        .
        'AqilixAPI\\Image', 
        'ZF\\OAuth2\\Doctrine',
+       'DoctrineDataFixtureModule'
     )
 )
 ```
@@ -96,7 +97,7 @@ To enable `OAuth2` Authentication, just copy default configuration files `(confi
 
 Database
 --------
-This module use a table called `image`. Currently it use `MySQL`, but you can change it based on your need easily as long as the database is supported by `Doctrine ORM`. If you have follow instructions above, it mean just remain creating the database table.
+This module use a tables `image`, `user` and another tables for `OAuth2`. Currently it use `MySQL`, but you can change it based on your need easily as long as the database is supported by `Doctrine ORM`. If you have follow instructions above, it mean just remain creating the database table.
 
 To do that just run this command from `app skeleton` working directory
 
@@ -104,8 +105,11 @@ To do that just run this command from `app skeleton` working directory
 vendor/bin/doctrine-module orm:schema-tool:create
 ```
 
-Table will created and app ready to used.
+Table will be created and if you wanna try the app with sample data. I have prepare them on the source code. Please run this command 
 
 
+```
+vendor/bin/doctrine-module data-fixture:import
 
+```
 
