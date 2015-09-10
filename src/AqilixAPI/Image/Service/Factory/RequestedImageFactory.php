@@ -32,17 +32,5 @@ class RequestedImageFactory implements FactoryInterface
         }
         
         return $requestedEntity;
-        
-//         $authentication = $serviceLocator->get('authentication');
-//         $identity = $authentication->getIdentity();
-//         if ($identity instanceof \ZF\MvcAuth\Identity\GuestIdentity) {
-//             $authUser = new User;            
-//         } elseif ($identity instanceof \ZF\MvcAuth\Identity\AuthenticatedIdentity) {
-//             $authIdentity = $identity->getAuthenticationIdentity();
-//             $userMapper   = $serviceLocator->get('AqilixAPI\\Image\\Mapper\\User');
-//             $authUser = $userMapper->fetchOne($authIdentity['user_id']);
-//         }
-        
-//         return $authUser;
     }
 }

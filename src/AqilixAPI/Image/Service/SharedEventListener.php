@@ -97,7 +97,7 @@ class SharedEventListener implements SharedListenerAggregateInterface, ServiceLo
          */
         $params = $event->getParams();
         unlink($params['path']);
-        unlink($params['thumb_path']);
+        unlink($params['thumbPath']);
     }
     
     /**

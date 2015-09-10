@@ -4,6 +4,7 @@ namespace AqilixAPI\Image\Authorization;
 use ZF\MvcAuth\MvcAuthEvent;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use Zend\ServiceManager\Exception\ServiceNotCreatedException;
 
 class AclImageListener implements ServiceLocatorAwareInterface
 {
@@ -18,7 +19,16 @@ class AclImageListener implements ServiceLocatorAwareInterface
     public function __invoke(MvcAuthEvent $mvcAuthEvent)
     {
         $mvcEvent = $mvcAuthEvent->getMvcEvent();
-        $requestedImage    = $this->getServiceLocator()->get('image.requested.image');
+        try {
+            $requestedImage = $this->getServiceLocator()->get('image.requested.image');
+        } catch (ServiceNotCreatedException $e) {
+            // service not created caused by service return null (image not found in database)
+            return $mvcAuthEvent->getMvcEvent()
+                    ->getResponse()
+                    ->setStatusCode(404)
+                    ->send();
+        }
+        
         $authenticatedUser = $this->getServiceLocator()->get('image.authenticated.user');
         // check if requested image owned by authenticated user
         if ($requestedImage->getId() !== null &&
