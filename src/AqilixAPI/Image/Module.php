@@ -20,11 +20,11 @@ use ZF\MvcAuth\MvcAuthEvent;
  */
 class Module implements ApigilityProviderInterface
 {
-    public function onBootstrap(MvcEvent $e)
+    public function onBootstrap(MvcEvent $mvcEvent)
     {
         UriFactory::registerScheme('chrome-extension', 'Zend\Uri\Uri'); // add chrome-extension for API Client
-        $serviceManager = $e->getApplication()->getServiceManager();
-        $eventManager   = $e->getApplication()->getEventManager();
+        $serviceManager = $mvcEvent->getApplication()->getServiceManager();
+        $eventManager   = $mvcEvent->getApplication()->getEventManager();
         $sharedEventManager = $eventManager->getSharedManager();
         // attach image shared event listener
         $sharedEventManager->attachAggregate($serviceManager->get('AqilixAPI\\Image\\SharedEventListener'));
@@ -34,7 +34,6 @@ class Module implements ApigilityProviderInterface
         $eventManager->attach(
             MvcAuthEvent::EVENT_AUTHENTICATION_POST,
             function ($mvcAuthEvent) {
-                $authService  = $mvcAuthEvent->getAuthorizationService();
                 $identity     = $mvcAuthEvent->getIdentity();
                 $authIdentity = $identity->getAuthenticationIdentity();
                 if (!$identity instanceof \ZF\MvcAuth\Identity\GuestIdentity) {

@@ -14,6 +14,7 @@
     "zendframework/zendframework" : ">=2.3.2,<3.0.0",
     "squizlabs/php_codesniffer" : "1.4.*",
     "zfcampus/zf-apigility" : "1.0.3",
+    "phpmd/phpmd"    : "2.*",
     "phpunit/phpunit": "4.*"
   },
   "authors" : [ {
