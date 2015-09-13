@@ -18,7 +18,6 @@ class AclImageListener implements ServiceLocatorAwareInterface
      */
     public function __invoke(MvcAuthEvent $mvcAuthEvent)
     {
-        $mvcEvent = $mvcAuthEvent->getMvcEvent();
         try {
             $requestedImage = $this->getServiceLocator()->get('image.requested.image');
         } catch (ServiceNotCreatedException $e) {
