@@ -38,8 +38,8 @@ return array(
             'AqilixAPI\\Image\\SharedEventListener' => 'AqilixAPI\\Image\\Service\\SharedEventListener',
             'AqilixAPI\\Image\\Authorization\\AclImageListener'    =>
                 'AqilixAPI\\Image\\Authorization\\AclImageListener',
-            'AqilixAPI\\Image\\Authorization\\AclClientIDListener' =>
-                'AqilixAPI\\Image\\Authorization\\AclCLientIDListener',
+            'AqilixAPI\\Image\\Authorization\\AclScopeListener' =>
+                'AqilixAPI\\Image\\Authorization\\AclScopeListener',
             'AqilixAPI\\Image\\V1\\Rest\\Image\\ImageResource'   =>
                 'AqilixAPI\\Image\\V1\\Rest\\Image\\ImageResource',
             'AqilixAPI\\Image\\V1\\Rest\\Images\\ImagesResource' =>
@@ -50,7 +50,10 @@ return array(
         'factories' => array(
             'image.authenticated.user' => 'AqilixAPI\\Image\\Service\\Factory\\AuthUserFactory',
             'image.requested.image'    => 'AqilixAPI\\Image\\Service\\Factory\\RequestedImageFactory'
-        )
+        ),
+        'aliases' => array(
+            'ZF\OAuth2\Provider\UserId' => 'ZF\OAuth2\Provider\UserId\AuthenticationService',
+        ),
     ),
     'zf-versioning' => array(
         'uri' => array(
@@ -249,19 +252,19 @@ return array(
         'ori_path'   => 'data/upload/images/ori',
     ),
     'authorization' => array(
-        'roles' => array('mobile', array('web', 'mobile')),
-        'resources' => array(
-            0 => 'AqilixAPI\Image\V1\Rest\Image\Controller::collection'
-        ),
-        'rules' => array(
-            'TYPE_DENY' => array(
-                0 => array(
-                    'role' => 'web',
-                    'resource'  => 'AqilixAPI\Image\V1\Rest\Image\Controller::collection',
-                    'privilege' => 'POST',
-                ),
+        'scopes' => array(
+            'post' => array(
+                'resource' => 'AqilixAPI\Image\V1\Rest\Image\Controller::collection',
+                'method' => 'POST',
             ),
-            'TYPE_ALLOW' => array()
+            'update' => array(
+                'resource' => 'AqilixAPI\Image\V1\Rest\Image\Controller::entity',
+                'method' => 'PATCH',
+            ),
+            'delete' => array(
+                'resource' => 'AqilixAPI\Image\V1\Rest\Image\Controller::entity',
+                'method' => 'DELETE',
+            )
         )
     ),
     'data-fixture' => array(

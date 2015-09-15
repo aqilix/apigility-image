@@ -42,13 +42,13 @@ class Module implements ApigilityProviderInterface
             },
             100
         );
-        // attach ACL for checking Client ID
+        // attach ACL for checking Scope
         $eventManager->attach(
-            MvcAuthEvent::EVENT_AUTHORIZATION,
-            $serviceManager->get('AqilixAPI\\Image\\Authorization\\AclClientIDListener'),
-            100
+            MvcAuthEvent::EVENT_AUTHORIZATION_POST,
+            $serviceManager->get('AqilixAPI\\Image\\Authorization\\AclScopeListener'),
+            101
         );
-        // attach ACL for checking image owner
+        // attach ACL for checking Image Owner
         $eventManager->attach(
             MvcAuthEvent::EVENT_AUTHORIZATION_POST,
             $serviceManager->get('AqilixAPI\\Image\\Authorization\\AclImageListener'),

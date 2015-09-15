@@ -32,6 +32,14 @@ class LoadScopeData extends AbstractFixture implements OrderedFixtureInterface
                 'scope' => 'post',
                 'is_default' => 1
             ),
+            array(
+                'scope' => 'update',
+                'is_default' => 1
+            ),
+            array(
+                'scope' => 'delete',
+                'is_default' => 1
+            ),
         );
         
         foreach ($scopeData as $key => $data) {
