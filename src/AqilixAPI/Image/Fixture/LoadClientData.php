@@ -27,7 +27,6 @@ class LoadClientData extends AbstractFixture implements OrderedFixtureInterface
                     $this->getReference('scope0'),
                     $this->getReference('scope1'),
                     $this->getReference('scope2'),
-                    $this->getReference('scope3')
                 );
         $webScope = array($this->getReference('scope0'), $this->getReference('scope1'), $this->getReference('scope2'));
         
@@ -44,7 +43,7 @@ class LoadClientData extends AbstractFixture implements OrderedFixtureInterface
                 'secret' => $clientSecret,
                 'client_id'  => 'web',
                 'grant_type' => $grantTypes['web'],
-                'scope'  => $webScope 
+                'scope'  => $webScope
             ),
             array(
                 'user'   => $this->getReference('user1'),
