@@ -13,4 +13,20 @@ return array(
         'thumb_path' => 'data/upload/images/thumbs',
         'ori_path'   => 'data/upload/images/ori',
     ),
+    'authorization' => array(
+        'scopes' => array(
+            'post' => array(
+                'resource' => 'AqilixAPI\Image\V1\Rest\Image\Controller::collection',
+                'method' => 'POST',
+            ),
+            'update' => array(
+                'resource' => 'AqilixAPI\Image\V1\Rest\Image\Controller::entity',
+                'method' => 'PATCH',
+            ),
+            'delete' => array(
+                'resource' => 'AqilixAPI\Image\V1\Rest\Image\Controller::entity',
+                'method' => 'DELETE',
+            )
+        )
+    ),
 );

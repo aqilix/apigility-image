@@ -238,6 +238,9 @@ return array(
             ),
         ),
     ),
+    'data-fixture' => array(
+        'fixtures' => __DIR__ . '/../src/AqilixAPI/Image/Fixture'
+    ),
     'asset_manager' => array(
         'resolver_configs' => array(
             'paths' => array(
@@ -254,20 +257,17 @@ return array(
     'authorization' => array(
         'scopes' => array(
             'post' => array(
-                'resource' => 'AqilixAPI\Image\V1\Rest\Image\Controller::collection',
-                'method' => 'POST',
+                // 'resource' => 'AqilixAPI\Image\V1\Rest\Image\Controller::collection',
+                // 'method' => 'POST',
             ),
             'update' => array(
-                'resource' => 'AqilixAPI\Image\V1\Rest\Image\Controller::entity',
-                'method' => 'PATCH',
+                // 'resource' => 'AqilixAPI\Image\V1\Rest\Image\Controller::entity',
+                // 'method' => 'PATCH',
             ),
             'delete' => array(
-                'resource' => 'AqilixAPI\Image\V1\Rest\Image\Controller::entity',
-                'method' => 'DELETE',
+                // 'resource' => 'AqilixAPI\Image\V1\Rest\Image\Controller::entity',
+                // 'method' => 'DELETE',
             )
         )
-    ),
-    'data-fixture' => array(
-        'fixtures' => __DIR__ . '/../src/AqilixAPI/Image/Fixture'
     ),
 );
