@@ -92,7 +92,36 @@ After that, we need to configure the `image path`, `thumbnail path`, `original f
 
 Make sure those paths are exists and writeable by `Web Server`, but if you just use `PHP built in web server` for development you don't need to change their permissions.
 
+
+
+
+OAuth2
+----------
+
 To enable `OAuth2` Authentication, just copy default configuration files `(config/oauth2.doctrine-orm.local.php.dist, config/oauth2.local.php.dist)` to `config/autoload/oauth2.doctrine-orm.local.php` and `config/autoload/oauth2.local.php`.
+
+We also able to configure `authorization` based on `Scope`. Currently ACL by `Scope` just supported by `Client Credentials` **Grant Type**. This is caused by limitation from `ZF-OAUTH2`. To add another **Grant Type** we should extend the `ZF-OAUTH2` code. For configuration, just add configuration mentioned above (`config/autoload/aqilixapi.image.local.php`)
+
+```
+    'authorization' => array(
+        'scopes' => array(
+            'post' => array(
+                'resource' => 'AqilixAPI\Image\V1\Rest\Image\Controller::collection',
+                'method' => 'POST',
+            ),
+            'update' => array(
+                'resource' => 'AqilixAPI\Image\V1\Rest\Image\Controller::entity',
+                'method' => 'PATCH',
+            ),
+            'delete' => array(
+                'resource' => 'AqilixAPI\Image\V1\Rest\Image\Controller::entity',
+                'method' => 'DELETE',
+            )
+        )
+    ),
+```
+
+Define `Scope` name as key, and define `resource` and `method` wanna be authorized. 
 
 
 Database
