@@ -19,59 +19,36 @@ class LoadClientData extends AbstractFixture implements OrderedFixtureInterface
         $bcrypt = new Bcrypt();
         $clientSecret = $bcrypt->create('123456');
         $grantTypes   = array(
-          'mobile' => array('client_credentials', 'password', 'implicit', 'refresh_token'),
-          'web' => array('password', 'implicit', 'refresh_token')
+          'mobile' => array('password', 'implicit', 'refresh_token'),
+          'custom' => array('client_credentials', 'implicit', 'refresh_token'),
         );
         $redirectUri  = '/oauth/receivecode';
-        $mobileScope  = array(
-                    $this->getReference('scope0'),
-                    $this->getReference('scope1'),
-                    $this->getReference('scope2'),
-                );
-        $webScope = array($this->getReference('scope0'), $this->getReference('scope1'), $this->getReference('scope2'));
+        $clientCredentialScope = array(
+                                    $this->getReference('scope0'),
+                                    $this->getReference('scope1'),
+                                    $this->getReference('scope2')
+                                 );
         
         $clientData = array(
             array(
-                'user'   => $this->getReference('user0'),
+                'user'   => null,
                 'secret' => $clientSecret,
                 'client_id'  => 'mobile',
                 'grant_type' => $grantTypes['mobile'],
-                'scope'  => $mobileScope
             ),
             array(
                 'user'   => $this->getReference('user0'),
                 'secret' => $clientSecret,
-                'client_id'  => 'web',
-                'grant_type' => $grantTypes['web'],
-                'scope'  => $webScope
+                'client_id'  => '55f94d5ee7707',
+                'grant_type' => $grantTypes['custom'],
+                'scope'  => $clientCredentialScope
             ),
             array(
                 'user'   => $this->getReference('user1'),
                 'secret' => $clientSecret,
-                'client_id'  => 'mobile1',
-                'grant_type' => $grantTypes['mobile'],
-                'scope'  => $mobileScope
-            ),
-            array(
-                'user'   => $this->getReference('user1'),
-                'secret' => $clientSecret,
-                'client_id'  => 'web1',
-                'grant_type' => $grantTypes['web'],
-                'scope'  => $webScope
-            ),
-            array(
-                'user'   => $this->getReference('user2'),
-                'secret' => $clientSecret,
-                'client_id'  => 'mobile2',
-                'grant_type' => $grantTypes['mobile'],
-                'scope'  => $mobileScope
-            ),
-            array(
-                'user'   => $this->getReference('user2'),
-                'secret' => $clientSecret,
-                'client_id'  => 'web2',
-                'grant_type' => $grantTypes['web'],
-                'scope'  => $webScope
+                'client_id'  => '55f94d92d97e5',
+                'grant_type' => $grantTypes['custom'],
+                'scope'  => $clientCredentialScope
             ),
         );
         
@@ -82,10 +59,12 @@ class LoadClientData extends AbstractFixture implements OrderedFixtureInterface
             $client[$key]->setClientId($data['client_id']);
             $client[$key]->setRedirectUri($redirectUri);
             $client[$key]->setGrantType($data['grant_type']);
-            foreach ($data['scope'] as $scope) {
-                $client[$key]->addScope($scope);
-                $scope->addClient($client[$key]);
-                $manager->persist($scope);
+            if (isset($data['scope'])) {
+                foreach ($data['scope'] as $scope) {
+                    $client[$key]->addScope($scope);
+                    $scope->addClient($client[$key]);
+                    $manager->persist($scope);
+                }
             }
             
             $manager->persist($client[$key]);
