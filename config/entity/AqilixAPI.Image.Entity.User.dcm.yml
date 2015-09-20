@@ -1,7 +1,7 @@
 AqilixAPI\Image\Entity\User:
     name: AqilixAPI\Image\Entity\User
     type: entity
-    table: user
+    table: users
     id:
         id:
             type: integer
